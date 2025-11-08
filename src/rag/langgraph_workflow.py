@@ -3,6 +3,7 @@ LangGraph RAG Workflow
 End-to-end orchestration: Query -> Retrieve -> Generate -> Respond
 """
 import sys
+import os
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -16,6 +17,32 @@ from generation.gpt4o_generator import GPT4oGenerator, GeneratedResponse
 from storage.storage_factory import VectorStorageFactory
 
 load_dotenv()
+
+
+def check_data_ready() -> bool:
+    """Check if required data files exist"""
+    required_files = [
+        "data/processed/chunks.json",
+        "data/processed/chunks_with_embeddings.json",
+        "data/processed/chunks_with_embeddings_vectors.npy",
+        "data/processed/faiss_index.bin",
+        "data/processed/factsheet.db"
+    ]
+    
+    missing = []
+    for file in required_files:
+        if not Path(file).exists():
+            missing.append(file)
+    
+    if missing:
+        print("⚠ Missing data files:")
+        for file in missing:
+            print(f"  - {file}")
+        print("\n💡 Run ingestion pipeline first:")
+        print("   python src/ingestion/pipeline.py")
+        return False
+    
+    return True
 
 
 # Define State
@@ -56,6 +83,15 @@ class RAGWorkflow:
         print(f"{'='*70}")
         print("INITIALIZING RAG WORKFLOW")
         print(f"{'='*70}\n")
+        
+        # Check if data is ready
+        print("0. Checking data files...")
+        if not check_data_ready():
+            raise RuntimeError(
+                "Required data files not found. "
+                "Please run: python src/ingestion/pipeline.py"
+            )
+        print("   ✓ All data files present\n")
         
         # Initialize retriever
         print("1. Setting up Hybrid Retriever...")

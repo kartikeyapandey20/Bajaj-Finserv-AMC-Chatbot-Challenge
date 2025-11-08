@@ -4,6 +4,25 @@
 
 ---
 
+## ⚡ Quick Start (Run in 3 Steps)
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Add your OpenAI API key to .env file
+# OPENAI_API_KEY=sk-...
+
+# 3. Run the chatbot UI
+streamlit run main.py
+```
+
+**The app will open at: http://localhost:8501** 🎉
+
+> **Note:** Data files are already processed and included. No ingestion needed!
+
+---
+
 ## 📋 Table of Contents
 
 - [Problem Statement](#problem-statement)
