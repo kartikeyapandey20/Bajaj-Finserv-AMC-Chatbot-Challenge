@@ -94,11 +94,13 @@ class ParsedDocument:
             ],
             "images": [
                 {
-                    "page": img.page_number,
-                    "type": img.image_type,
-                    "dimensions": f"{img.width}x{img.height}",
+                    "page_number": img.page_number,
+                    "image_type": img.image_type,
+                    "width": img.width,
+                    "height": img.height,
                     "format": img.format,
-                    "size_kb": img.size_bytes / 1024,
+                    "size_bytes": img.size_bytes,
+                    "xref": img.xref,
                     "description": img.description,
                     "caption": img.caption
                 }
@@ -109,7 +111,7 @@ class ParsedDocument:
                     "page": txt.page_number,
                     "section": txt.section,
                     "char_count": txt.char_count,
-                    "preview": txt.content[:200]
+                    "content": txt.content  # Full content for chunking
                 }
                 for txt in self.text_sections
             ],
