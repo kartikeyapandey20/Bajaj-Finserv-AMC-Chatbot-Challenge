@@ -5,3 +5,6 @@ Problem Statement.docx
 ARCHITECTURE.md
 SETUP.md
 API_MIGRATION_GUIDE.md
+__pycache__/
+docs/
+tests/
